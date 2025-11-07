@@ -1,7 +1,8 @@
 import anthropic
+#import os
 
 client = anthropic.Anthropic()
-
+#api_key = os.getenv("API_KEY")
 
 message = client.messages.create(
     model="claude-sonnet-4-5",
