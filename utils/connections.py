@@ -8,7 +8,7 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.sse import sse_client
 from mcp.client.stdio import stdio_client
 
-from mcp_tool import MCPTool
+from ..tools.mcp_tool import MCPTool
 
 
 class MCPConnection(ABC):
