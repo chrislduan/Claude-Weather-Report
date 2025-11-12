@@ -7,7 +7,7 @@ from typing import Any
 from anthropic import Anthropic
 from .tools.base import Tool
 from .utils.connections import setup_mcp_connection
-from .utils.hisotry_util import MessageHistory
+from .utils.history_util import MessageHistory
 from .utils.tool_util import execute_tools
 
 
