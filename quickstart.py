@@ -12,7 +12,7 @@ model = "claude-haiku-4-5"
 import json
 from anthropic.types import Message
 from chat_functions import add_assistant_message, add_user_message, chat
-#from .tools import base, date_tools, file_tools, weather_tools
+import tools
 
 message = client.messages.create(
     model = model,

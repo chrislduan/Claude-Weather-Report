@@ -31,4 +31,3 @@ interface ToolSchema {
     properties: Record<string, unknown>;
     required: string[];
   };
-}

@@ -1,6 +1,11 @@
 # Date and time tools and schemas
 from datetime import datetime, timedelta
 from anthropic.types import ToolParam
+import os
+import requests
+
+# Open Weather API
+WEATHER_API = "https://api.openweathermap.org/data/2.5/weather"
 
 
 batch_tool_schema = {
@@ -56,8 +61,11 @@ def run_tool(tool_name, tool_input):
         return add_duration_to_datetime(**tool_input)
     elif tool_name == "set_reminder":
         return set_reminder(**tool_input)
+    elif tool_name == "weather_tool":
+        return get_weather(**tool_input)
     elif tool_name == "batch_tool":
         return run_batch(**tool_input)
+    
 
 
 def run_tools(message):
@@ -213,8 +221,27 @@ weather_tool_schema = {
     "input_schema": {
         "type": "object",
         "properties": {
-            "location": {"type": "string"}
+            "location": {
+                "type": "string",
+                "description": "The city and state, e.g. San Francisco, CA"
+            },
+            "unit": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"],
+                "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
+            }
         },
         "required": ["location"]
     },
 }
+
+
+def get_weather(city:str):
+    params = {
+        "q": city,
+        "appid": os.environ["OPENWEATHER_KEY"],
+        "units": "metric"
+    }
+    response = requests.get(WEATHER_API, params=params)
+    response.raise_for_status()
+    return response.json()
