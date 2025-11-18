@@ -48,3 +48,7 @@ def run_conversation(messages):
         chat.add_user_message(messages, tool_results)
 
     return messages
+
+
+if __name__ == "__main__":
+    run_conversation()
