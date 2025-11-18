@@ -1,1 +1,5 @@
 .env
+__pycache__/chat.cpython-313.pyc
+__pycache__/quickstart.cpython-313.pyc
+tools/__pycache__/base.cpython-313.pyc
+__pycache__/chat_functions.cpython-313.pyc

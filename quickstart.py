@@ -6,13 +6,13 @@ load_dotenv()  # Load variables from .env file
 import anthropic
 
 client = anthropic.Anthropic()
-model = "claude-sonnet-4"
+model = "claude-haiku-4-5"
 
 # imports
 import json
 from anthropic.types import Message
-import chat
-from .tools import base, date_tools, file_tools, weather_tools
+from chat_functions import add_assistant_message, add_user_message, chat
+#from .tools import base, date_tools, file_tools, weather_tools
 
 message = client.messages.create(
     model = model,
@@ -30,25 +30,38 @@ def run_conversation(messages):
     while True:
         response = chat(
             messages,
-            tools=[
-                date_tools.get_current_datetime_schema,
-                date_tools.add_duration_to_datetime_schema,
-                date_tools.set_reminder_schema,
-                base.batch_tool_schema
-            ],
+            # tools=[
+            #     date_tools.get_current_datetime_schema,
+            #     date_tools.add_duration_to_datetime_schema,
+            #     date_tools.set_reminder_schema,
+            #     base.batch_tool_schema
+            # ],
         )
 
-        chat.add_assistant_message(messages, response)
+        add_assistant_message(messages, response)
         print(chat.text_from_message(response))
 
         if response.stop_reason != "tool_use":
             break
 
-        tool_results = base.run_tools(response)
-        chat.add_user_message(messages, tool_results)
+        # tool_results = base.run_tools(response)
+        # chat.add_user_message(messages, tool_results)
+        add_user_message(messages)
 
     return messages
 
 
 if __name__ == "__main__":
-    run_conversation()
+    messages = []
+    # add_user_message(
+    #     messages,
+    #     """Set two reminders for Jan 1, 2050 at 8 am:
+    #             * I have a doctors appointment
+    #             * Taxes are due
+    #     """,
+    # )
+    add_user_message(
+        messages,
+        message
+    )
+    run_conversation(messages)
