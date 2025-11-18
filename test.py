@@ -57,10 +57,10 @@ def run_conversation(messages):
         response = chat(
             messages,
             tools=[
-                get_current_datetime_schema,
-                add_duration_to_datetime_schema,
-                set_reminder_schema,
-                batch_tool_schema
+                tools.get_current_datetime_schema,
+                tools.add_duration_to_datetime_schema,
+                tools.set_reminder_schema,
+                tools.batch_tool_schema
             ],
         )
 
@@ -70,10 +70,18 @@ def run_conversation(messages):
         if response.stop_reason != "tool_use":
             break
 
-        tool_results = run_tools(response)
+        tool_results = tools.run_tools(response)
         add_user_message(messages, tool_results)
 
     return messages
 
 if __name__ == "__main__":
-    print("Hi")
+    messages = []
+    add_user_message(
+        messages,
+        """Set two reminders for Jan 1, 2050 at 8 am:
+            * I have a doctors appointment
+            * Taxes are due
+        """,
+    )
+    print(run_conversation(messages))
