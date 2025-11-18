@@ -33,7 +33,7 @@ def add_assistant_message(messages, message):
 def chat(messages, system=None, temperature=1.0, stop_sequences=[], tools=None):
     params = {
         "model": model,
-        "max_tokens": 1000,
+        "max_tokens": 16000,
         "messages": messages,
         "temperature": temperature,
         "stop_sequences": stop_sequences,
@@ -79,9 +79,6 @@ if __name__ == "__main__":
     messages = []
     add_user_message(
         messages,
-        """Set two reminders for Jan 1, 2050 at 8 am:
-            * I have a doctors appointment
-            * Taxes are due
-        """,
+        "Get weather in Houston, Texas",
     )
     print(run_conversation(messages))
