@@ -4,12 +4,23 @@ Simple AI using Claude API to report the Weather
 
 ## Set up
 To use this code, you'll need a Claude API key. If you don't have one yet, you can sign up for free at console.anthropic.com.
+    1. Go to console.anthropic.com and create an account
+    2. On the left-hand menu scroll down and click **Manage API Keys**
+    3. On the top-right of the page click **Create Key** and name your key and click **Add**
+    4. Copy the key and save it somewhere safe.
 
-First install all necessary packages to run claude and other os packages using the following commands in terminal:
+
+1. Clone the repository:
+```
+git clone https://github.com/chrislduan/Claude-Weather-Report.git
+cd Claude-Weather-Report
+```
+
+2. Install all necessary packages to run claude and other os packages using the following commands in terminal:
 ```bash
 pip install -r requirements.txt
 ```
-
+3. Create a ```.env local``` file in the root directory
 This code requires API keys to use Claude API and Open Weather API. You can get free keys from the following:
 * Claude: https://console.anthropic.com/
 * Open Weather: https://openweathermap.org/api
