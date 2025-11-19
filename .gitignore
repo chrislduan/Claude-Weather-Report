@@ -6,3 +6,4 @@ __pycache__/chat_functions.cpython-313.pyc
 __pycache__/tools.cpython-313.pyc
 .venv
 __pycache__/tools.cpython-314.pyc
+.cache.sqlite

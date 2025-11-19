@@ -60,9 +60,9 @@ def run_conversation(messages):
                 tools.get_current_datetime_schema,
                 tools.add_duration_to_datetime_schema,
                 tools.batch_tool_schema,
-                #tools.city_weather_tool_schema
-                tools.city_geocode_tool_schema,
-                tools.geocode_weather_tool_schema
+                tools.meteo_city_geocode_tool_schema,
+                tools.geocode_weather_tool_schema,
+                tools.daily_forecast_schema
             ],
         )
 
@@ -86,9 +86,10 @@ if __name__ == "__main__":
     while city!="exit":
         add_user_message(
             messages,
-            f"What is the weather like in {city}",
+            #f"What is the weather like in {city}",
+            city
         )
         run_conversation(messages)
         city = input("\nPlease enter another city name if you would like to know its weather,\n"
         " or type 'exit' if you would like to leave:")
-    # print(messages)
+    print(messages)
