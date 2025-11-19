@@ -78,8 +78,10 @@ def run_conversation(messages):
 
 if __name__ == "__main__":
     messages = []
+    #city = "Houston"
+    city = input("Enter city name: ")
     add_user_message(
         messages,
-        "What is the weather like in Houston",
+        f"What is the weather like in {city}",
     )
-    print(run_conversation(messages))
+    run_conversation(messages)

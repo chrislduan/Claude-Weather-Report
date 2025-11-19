@@ -23,6 +23,8 @@ To run the basic testing code, in a terminal run this line:
 python test.py
 ```
 
+The code will prompt you for a city name. Type the name of the city for which you are seeking weather information.
+
 Plans to advance the code:
 * Directly have the users talk with the weather agent in the terminal and stream the API calls.
 * Create tools to use Open Weather's geocode API to get more precise weather information.
