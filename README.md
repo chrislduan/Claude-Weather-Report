@@ -24,9 +24,10 @@ python test.py
 ```
 
 The code will prompt you for a city name. Type the name of the city for which you are seeking weather information.
+The code will tell you the current weather of the given city.
 
 Plans to advance the code:
-* Directly have the users talk with the weather agent in the terminal and stream the API calls.
+* Directly have the users talk with the weather agent in the terminal and stream the API calls. Currently only takes one city and terminates itself.
 * Create tools to use Open Weather's geocode API to get more precise weather information.
 * Be able to retrieve weather data from the past.
 * Retrieve weather predictions in the near future.
