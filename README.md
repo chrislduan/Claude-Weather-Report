@@ -25,8 +25,8 @@ python test.py
 ```
 
 Plans to advance the code:
-* Directly have the users talk with the weather agent in the terminal
-* Create tools to use Open Weather's geocode API to get more precise weather information
-* Be able to retrieve weather data from the past
+* Directly have the users talk with the weather agent in the terminal and stream the API calls.
+* Create tools to use Open Weather's geocode API to get more precise weather information.
+* Be able to retrieve weather data from the past.
 * Retrieve weather predictions in the near future.
 
