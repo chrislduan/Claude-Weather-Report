@@ -2,6 +2,7 @@ requests
 anthropic 
 python-dotenv
 openmeteo-requests
+pydantic-core
 pandas
 requests-cache
 retry-requests

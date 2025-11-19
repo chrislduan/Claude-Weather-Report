@@ -1,5 +1,9 @@
 # Claude-Weather-Report
+
 Simple AI using Claude API to report the Weather
+
+## Set up
+To use this code, you'll need a Claude API key. If you don't have one yet, you can sign up for free at console.anthropic.com.
 
 First install all necessary packages to run claude and other os packages using the following commands in terminal:
 ```bash
