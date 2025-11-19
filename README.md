@@ -27,7 +27,6 @@ The code will prompt you for a city name. Type the name of the city for which yo
 
 Plans to advance the code:
 * Directly have the users talk with the weather agent in the terminal and stream the API calls.
-** Input Validation for user weather calls.
 * Create tools to use Open Weather's geocode API to get more precise weather information.
 * Be able to retrieve weather data from the past.
 * Retrieve weather predictions in the near future.
