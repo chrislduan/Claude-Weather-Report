@@ -96,7 +96,7 @@ def run_tools(message):
 
 # Weather tool schema
 weather_tool_schema = {
-    "name": "get_weather",
+    "name": "get_weather_city",
     "description": "Get current weather for a city",
     "input_schema": {
         "type": "object",
