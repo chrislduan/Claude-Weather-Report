@@ -8,7 +8,7 @@ import json
 # Open Weather API
 WEATHER_API = "https://api.openweathermap.org/data/2.5/weather"
 GEO_API = "http://api.openweathermap.org/geo/1.0/direct"
-WEATHER_FORECAST_API = "https://pro.openweathermap.org/data/2.5/forecast/hourly"
+HOURLY_FORECAST_API = "https://pro.openweathermap.org/data/2.5/forecast/hourly"
 
 # tool schema to run multiple tools simultaneously
 batch_tool_schema = {
@@ -314,3 +314,11 @@ add_duration_to_datetime_schema = {
         "required": ["datetime_str"],
     },
 }
+
+
+def get_hourly_forecast(lat, lon, unit="celcius"):
+    return
+
+
+def get_daily_forecast(lat, lon, unit="celcius"):
+    return

@@ -78,14 +78,17 @@ def run_conversation(messages):
     return messages
 
 if __name__ == "__main__":
-    print("I am an assistant that can give you the current weather of any given city. Please provide a city name below:")
+    print("I am an assistant that can give you the current weather of any given city.")
+    print("Please provide a city name below.")
     messages = []
     #city = "Houston"
     city = input("Enter city name: ")
-    add_user_message(
-        messages,
-        f"What is the weather like in {city}",
-        #f"What is the latitude and longitude in {city}",
-    )
-    run_conversation(messages)
+    while city!="exit":
+        add_user_message(
+            messages,
+            f"What is the weather like in {city}",
+        )
+        run_conversation(messages)
+        city = input("\nPlease enter another city name if you would like to know its weather,\n"
+        " or type 'exit' if you would like to leave:")
     # print(messages)
