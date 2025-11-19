@@ -1,5 +1,8 @@
+# Weather tool function and schema based on code found in https://docs.claude.com/llms-full.txt
+
 from claude_agent_sdk import tool, create_sdk_mcp_server, ClaudeSDKClient, ClaudeAgentOptions
 from typing import Any
+import aiohttp
 import os
 import requests
 

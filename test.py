@@ -33,7 +33,7 @@ def add_assistant_message(messages, message):
 def chat(messages, system=None, temperature=1.0, stop_sequences=[], tools=None):
     params = {
         "model": model,
-        "max_tokens": 16000,
+        "max_tokens": 1000,
         "messages": messages,
         "temperature": temperature,
         "stop_sequences": stop_sequences,
@@ -60,7 +60,8 @@ def run_conversation(messages):
                 tools.get_current_datetime_schema,
                 tools.add_duration_to_datetime_schema,
                 tools.set_reminder_schema,
-                tools.batch_tool_schema
+                tools.batch_tool_schema,
+                tools.weather_tool_schema
             ],
         )
 
@@ -79,6 +80,6 @@ if __name__ == "__main__":
     messages = []
     add_user_message(
         messages,
-        "Get weather in Houston, Texas",
+        "What is the weather like in Houston, TX",
     )
     print(run_conversation(messages))

@@ -117,6 +117,7 @@ get_current_datetime_schema = ToolParam(
     }
 )
 
+
 def add_duration_to_datetime(
     datetime_str, duration=0, unit="days", input_format="%Y-%m-%d"
 ):
@@ -217,11 +218,11 @@ set_reminder_schema = {
 
 weather_tool_schema = {
     "name": "get_weather",
-    "description": "Get current weather for a location",
+    "description": "Get current weather for a city",
     "input_schema": {
         "type": "object",
         "properties": {
-            "location": {
+            "city": {
                 "type": "string",
                 "description": "The city and state, e.g. San Francisco, CA"
             },
@@ -231,12 +232,14 @@ weather_tool_schema = {
                 "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
             }
         },
-        "required": ["location"]
+        "required": ["city"]
     },
 }
 
 
 def get_weather(city:str):
+    # Currently have an issue where the API only expects city name, going to see if I can make claude parse out the isssue itself
+    city = city.split(",")[0].strip()
     params = {
         "q": city,
         "appid": os.environ["OPENWEATHER_KEY"],
@@ -245,3 +248,4 @@ def get_weather(city:str):
     response = requests.get(WEATHER_API, params=params)
     response.raise_for_status()
     return response.json()
+
