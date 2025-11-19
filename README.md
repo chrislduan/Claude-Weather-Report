@@ -3,7 +3,6 @@ Simple AI using Claude API to report the Weather
 
 First install all necessary packages to run claude and other os packages using the following commands in terminal:
 ```bash
-pip install anthropic python-dotenv
 pip install -r requirements.txt
 ```
 
