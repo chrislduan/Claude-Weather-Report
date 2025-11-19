@@ -61,8 +61,8 @@ def run_tool(tool_name, tool_input):
         return add_duration_to_datetime(**tool_input)
     elif tool_name == "set_reminder":
         return set_reminder(**tool_input)
-    elif tool_name == "get_weather":
-        return get_weather(**tool_input)
+    elif tool_name == "get_weather_city":
+        return get_weather_city(**tool_input)
     elif tool_name == "batch_tool":
         return run_batch(**tool_input)
     
@@ -92,6 +92,51 @@ def run_tools(message):
         tool_result_blocks.append(tool_result_block)
 
     return tool_result_blocks
+
+
+# Weather tool schema
+weather_tool_schema = {
+    "name": "get_weather",
+    "description": "Get current weather for a city",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "city": {
+                "type": "string",
+                "description": "The city and state, e.g. San Francisco, CA"
+            },
+            "unit": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"],
+                "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
+            }
+        },
+        "required": ["city"]
+    },
+}
+
+# get weather call
+def get_weather_city(city:str):
+    # Currently have an issue where the API only expects city name, going to see if I can make claude parse out the isssue itself
+    city = city.split(",")[0].strip()
+    params = {
+        "q": city,
+        "appid": os.environ["OPENWEATHER_KEY"],
+        "units": "metric"
+    }
+    response = requests.get(WEATHER_API, params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+# Geocoding tool schema
+geocode_tool_schema = {
+
+}
+
+# code to receive city and convert to geo code
+def get_geocode(city:str):
+    return
 
 def get_current_datetime(date_format="%Y-%m-%d %H:%M:%S"):
     if not date_format:
@@ -215,37 +260,4 @@ set_reminder_schema = {
         "required": ["content", "timestamp"],
     },
 }
-
-weather_tool_schema = {
-    "name": "get_weather",
-    "description": "Get current weather for a city",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "city": {
-                "type": "string",
-                "description": "The city and state, e.g. San Francisco, CA"
-            },
-            "unit": {
-                "type": "string",
-                "enum": ["celsius", "fahrenheit"],
-                "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
-            }
-        },
-        "required": ["city"]
-    },
-}
-
-
-def get_weather(city:str):
-    # Currently have an issue where the API only expects city name, going to see if I can make claude parse out the isssue itself
-    city = city.split(",")[0].strip()
-    params = {
-        "q": city,
-        "appid": os.environ["OPENWEATHER_KEY"],
-        "units": "metric"
-    }
-    response = requests.get(WEATHER_API, params=params)
-    response.raise_for_status()
-    return response.json()
 
