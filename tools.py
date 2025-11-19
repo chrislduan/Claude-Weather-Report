@@ -61,7 +61,7 @@ def run_tool(tool_name, tool_input):
         return add_duration_to_datetime(**tool_input)
     elif tool_name == "set_reminder":
         return set_reminder(**tool_input)
-    elif tool_name == "weather_tool":
+    elif tool_name == "get_weather":
         return get_weather(**tool_input)
     elif tool_name == "batch_tool":
         return run_batch(**tool_input)

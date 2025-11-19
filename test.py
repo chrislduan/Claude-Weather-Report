@@ -80,6 +80,6 @@ if __name__ == "__main__":
     messages = []
     add_user_message(
         messages,
-        "What is the weather like in Houston, TX",
+        "What is the weather like in Houston",
     )
     print(run_conversation(messages))
