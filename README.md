@@ -14,7 +14,7 @@ This code requires API keys to use Claude API and Open Weather API. You can get 
 In .env file add both your Claude API Key and your Open Weather API Key.
 ```python
 ANTHROPIC_API_KEY="Your Claude Anthropic API Key here"
-OPENWEATHER_KEY="Your Open weater API Key here"
+OPENWEATHER_KEY="Your Open Weather API Key here"
 ```
 
 Currently this code is very simple and only runs basic questions and in an early phase of simply answering weather questions in a terminal. Right now I have it so that it only takes a single question hard written in the code to ask current weather of a city.
