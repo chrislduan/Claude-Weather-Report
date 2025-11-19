@@ -59,9 +59,10 @@ def run_conversation(messages):
             tools=[
                 tools.get_current_datetime_schema,
                 tools.add_duration_to_datetime_schema,
-                tools.set_reminder_schema,
                 tools.batch_tool_schema,
-                tools.weather_tool_schema
+                #tools.city_weather_tool_schema
+                tools.city_geocode_tool_schema,
+                tools.geocode_weather_tool_schema
             ],
         )
 
@@ -77,11 +78,14 @@ def run_conversation(messages):
     return messages
 
 if __name__ == "__main__":
+    print("I am an assistant that can give you the current weather of any given city. Please provide a city name below:")
     messages = []
     #city = "Houston"
     city = input("Enter city name: ")
     add_user_message(
         messages,
         f"What is the weather like in {city}",
+        #f"What is the latitude and longitude in {city}",
     )
     run_conversation(messages)
+    # print(messages)

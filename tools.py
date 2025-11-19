@@ -3,11 +3,13 @@ from datetime import datetime, timedelta
 from anthropic.types import ToolParam
 import os
 import requests
+import json
 
 # Open Weather API
 WEATHER_API = "https://api.openweathermap.org/data/2.5/weather"
+GEO_API = "http://api.openweathermap.org/geo/1.0/direct"
 
-
+# tool schema to run multiple tools simultaneously
 batch_tool_schema = {
     "name": "batch_tool",
     "description": "Invoke multiple other tool calls simultaneously",
@@ -38,8 +40,7 @@ batch_tool_schema = {
 }
 
 
-import json
-
+# function to run multiple tools
 def run_batch(invokations={}):
     batch_output = []
 
@@ -53,18 +54,22 @@ def run_batch(invokations={}):
 
     return batch_output
 
-
+# function to run single tool
 def run_tool(tool_name, tool_input):
     if tool_name == "get_current_datetime":
         return get_current_datetime(**tool_input)
     elif tool_name == "add_duration_to_datetime":
         return add_duration_to_datetime(**tool_input)
-    elif tool_name == "set_reminder":
-        return set_reminder(**tool_input)
-    elif tool_name == "get_weather_city":
-        return get_weather_city(**tool_input)
+    # elif tool_name == "get_city_weather":
+    #     return get_city_weather(**tool_input)
+    elif tool_name == "get_city_geocode":
+        return get_city_geocode(**tool_input)
+    elif tool_name == "get_geocode_weather":
+        return get_geocode_weather(**tool_input)
+    
     elif tool_name == "batch_tool":
         return run_batch(**tool_input)
+    
     
 
 
@@ -94,9 +99,9 @@ def run_tools(message):
     return tool_result_blocks
 
 
-# Weather tool schema
-weather_tool_schema = {
-    "name": "get_weather_city",
+# City Weather tool schema
+city_weather_tool_schema = {
+    "name": "get_city_weather",
     "description": "Get current weather for a city",
     "input_schema": {
         "type": "object",
@@ -115,14 +120,14 @@ weather_tool_schema = {
     },
 }
 
-# get weather call
-def get_weather_city(city:str):
+# get weather city call
+def get_city_weather(city):
     # Currently have an issue where the API only expects city name, going to see if I can make claude parse out the isssue itself
     city = city.split(",")[0].strip()
     params = {
         "q": city,
         "appid": os.environ["OPENWEATHER_KEY"],
-        "units": "metric"
+        "unit": "metric"
     }
     response = requests.get(WEATHER_API, params=params)
     response.raise_for_status()
@@ -130,14 +135,84 @@ def get_weather_city(city:str):
 
 
 # Geocoding tool schema
-geocode_tool_schema = {
-
+city_geocode_tool_schema = {
+    "name": "get_city_geocode",
+    "description": "Get geocode for a city",
+    "input_schema":{
+        "type": "object",
+        "properties": {
+            "city": {
+                "type": "string",
+                "description": "The city, e.g. San Francisco"
+            },
+            "city": {
+                "type": "string",
+                "description": "The state, e.g. CA or California"
+            },
+            "country": {
+                "type": "string",
+                "description": "The coutnry, e.g. Mexico"
+            }
+        },
+        "required": ["city"]
+    }
 }
 
 # code to receive city and convert to geo code
-def get_geocode(city:str):
-    return
+def get_city_geocode(city, country):
+    params = {
+        "q": f"{city},{country}",
+        "appid": os.environ["OPENWEATHER_KEY"],
+        "limit": 1,
+    }
+    response = requests.get(GEO_API, params)
+    response.raise_for_status()
 
+    data = response.json()
+    return {"lat": data[0]["lat"], "lon": data[0]["lon"]}
+
+
+# Location Weather tool schema
+geocode_weather_tool_schema = {
+    "name": "get_geocode_weather",
+    "description": "Get current weather for a geocode (latitude and longitude)",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "lat": {
+                "type": "number",
+                "description": "The latitude"
+            },
+            "lon": {
+                "type": "number",
+                "description": "The longitude"
+            },
+            "unit": {
+                "type": "string",
+                "enum": ["celsius", "fahrenheit"],
+                "description": "The unit of temperature, either 'celsius' or 'fahrenheit'"
+            }
+        },
+        "required": ["lat", "lon"]
+    },
+}
+
+# get weather from location call
+def get_geocode_weather(lat, lon, unit = "metric"):
+    # lat = inputs["lat"]
+    # lon = inputs["lon"]
+    params = {
+        "lat": lat,
+        "lon": lon,
+        "appid": os.environ["OPENWEATHER_KEY"],
+        "unit": unit
+    }
+    response = requests.get(WEATHER_API, params=params)
+    response.raise_for_status()
+    return response.json()
+
+
+# Get current date and time to be used in the future when asking for current weather
 def get_current_datetime(date_format="%Y-%m-%d %H:%M:%S"):
     if not date_format:
         raise ValueError("date_format cannot be empty")
@@ -163,6 +238,7 @@ get_current_datetime_schema = ToolParam(
 )
 
 
+# Add duration to use when asking for weather certain days away from current date
 def add_duration_to_datetime(
     datetime_str, duration=0, unit="days", input_format="%Y-%m-%d"
 ):
@@ -211,10 +287,6 @@ def add_duration_to_datetime(
     return new_date.strftime("%A, %B %d, %Y %I:%M:%S %p")
 
 
-def set_reminder(content, timestamp):
-    print(f"----\nSetting the following reminder for {timestamp}:\n{content}\n----")
-
-
 add_duration_to_datetime_schema = {
     "name": "add_duration_to_datetime",
     "description": "Adds a specified duration to a datetime string and returns the resulting datetime in a detailed format. This tool converts an input datetime string to a Python datetime object, adds the specified duration in the requested unit, and returns a formatted string of the resulting datetime. It handles various time units including seconds, minutes, hours, days, weeks, months, and years, with special handling for month and year calculations to account for varying month lengths and leap years. The output is always returned in a detailed format that includes the day of the week, month name, day, year, and time with AM/PM indicator (e.g., 'Thursday, April 03, 2025 10:30:00 AM').",
@@ -241,23 +313,3 @@ add_duration_to_datetime_schema = {
         "required": ["datetime_str"],
     },
 }
-
-set_reminder_schema = {
-    "name": "set_reminder",
-    "description": "Creates a timed reminder that will notify the user at the specified time with the provided content. This tool schedules a notification to be delivered to the user at the exact timestamp provided. It should be used when a user wants to be reminded about something specific at a future point in time. The reminder system will store the content and timestamp, then trigger a notification through the user's preferred notification channels (mobile alerts, email, etc.) when the specified time arrives. Reminders are persisted even if the application is closed or the device is restarted. Users can rely on this function for important time-sensitive notifications such as meetings, tasks, medication schedules, or any other time-bound activities.",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "content": {
-                "type": "string",
-                "description": "The message text that will be displayed in the reminder notification. This should contain the specific information the user wants to be reminded about, such as 'Take medication', 'Join video call with team', or 'Pay utility bills'.",
-            },
-            "timestamp": {
-                "type": "string",
-                "description": "The exact date and time when the reminder should be triggered, formatted as an ISO 8601 timestamp (YYYY-MM-DDTHH:MM:SS) or a Unix timestamp. The system handles all timezone processing internally, ensuring reminders are triggered at the correct time regardless of where the user is located. Users can simply specify the desired time without worrying about timezone configurations.",
-            },
-        },
-        "required": ["content", "timestamp"],
-    },
-}
-
