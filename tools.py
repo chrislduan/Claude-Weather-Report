@@ -121,13 +121,13 @@ city_weather_tool_schema = {
 }
 
 # get weather city call
-def get_city_weather(city):
+def get_city_weather(city, unit="celcius"):
     # Currently have an issue where the API only expects city name, going to see if I can make claude parse out the isssue itself
     city = city.split(",")[0].strip()
     params = {
         "q": city,
         "appid": os.environ["OPENWEATHER_KEY"],
-        "unit": "metric"
+        "unit": unit
     }
     response = requests.get(WEATHER_API, params=params)
     response.raise_for_status()
@@ -198,7 +198,7 @@ geocode_weather_tool_schema = {
 }
 
 # get weather from location call
-def get_geocode_weather(lat, lon, unit = "metric"):
+def get_geocode_weather(lat, lon, unit="celcius"):
     # lat = inputs["lat"]
     # lon = inputs["lon"]
     params = {
