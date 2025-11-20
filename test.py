@@ -58,12 +58,6 @@ def run_conversation(messages):
         response = chat(
             messages,
             tools=[
-                # tools.get_current_datetime_schema,
-                # tools.add_duration_to_datetime_schema,
-                # tools.batch_tool_schema,
-                # tools.city_geocode_tool_schema,
-                # tools.geocode_weather_tool_schema,
-                # tools.daily_forecast_schema
                 custom_tools.weather_tool_schema,
                 custom_tools.weather_forecast_schema
             ],
@@ -81,7 +75,7 @@ def run_conversation(messages):
     return messages
 
 if __name__ == "__main__":
-    print("I am an assistant that can give you the current weather or the forecast of any given city.")
+    print("I am an assistant that can give you the current weather or the forecast of any given city.\nYou may type 'exit' to leave at any time.")
     messages = []
     report_type = ""
     while True:
