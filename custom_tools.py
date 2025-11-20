@@ -81,7 +81,10 @@ def get_weather(latitude, longitude):
     return data
 
 def get_forecast(latitude, longitude):
-    url = (f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m&temperature_unit=fahrenheit")
+    url = ("https://api.open-meteo.com/v1/forecast?"
+        f"latitude={latitude}&longitude={longitude}"
+        "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum"
+        "&timezone=auto")
     response = requests.get(url)
     data = response.json()
 

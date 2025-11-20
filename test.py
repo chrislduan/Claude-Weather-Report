@@ -105,5 +105,5 @@ if __name__ == "__main__":
             input_string
         )
         run_conversation(messages)
-    print(messages)
+    # print(messages)
         
