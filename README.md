@@ -24,7 +24,7 @@ pip install -r requirements.txt
 This code requires API keys to use Claude API. You can get free keys from the following:
 * Claude: https://console.anthropic.com/
 
-In .env file add both your Claude API Key
+In .env file add your Claude API Key
 ```python
 ANTHROPIC_API_KEY="Your Claude Anthropic API Key here"
 ```
@@ -41,7 +41,6 @@ The code will tell you the current weather of the given city.
 
 Plans to advance the code:
 * Directly have the users talk with the weather agent in the terminal and stream the API calls. Currently only takes one city and terminates itself.
-* Create tools to use Open Weather's geocode API to get more precise weather information.
 * Be able to retrieve weather data from the past.
 * Retrieve weather predictions in the near future.
 
