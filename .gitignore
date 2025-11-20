@@ -1,9 +1,4 @@
 .env
-__pycache__/chat.cpython-313.pyc
-__pycache__/quickstart.cpython-313.pyc
-tools/__pycache__/base.cpython-313.pyc
-__pycache__/chat_functions.cpython-313.pyc
-__pycache__/tools.cpython-313.pyc
+__pycache__
 .venv
-__pycache__/tools.cpython-314.pyc
 .cache.sqlite
