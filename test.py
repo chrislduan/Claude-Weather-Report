@@ -80,19 +80,33 @@ def run_conversation(messages):
     return messages
 
 if __name__ == "__main__":
-    print("I am an assistant that can give you the current weather of any given city.")
-    print("Please provide a city name below.")
+    print("I am an assistant that can give you the current weather or the forecast of any given city.")
+    # print("Please let me know if you would like the current or the forecast.")
     messages = []
-    # city = "Houston"
-    city = input("Enter city name: ")
-    while city!="exit":
+    report_type = ""
+    # request = input("Would you like to know current weather (W) or forecast (F)?\n")
+    # if request == "exit": 
+    #     pass
+    # while request not in ["current weather", "weather", "W", "w", "forecast", "F", "f", "exit"]:
+    #     input("Would you like to know current weather (W) or forecast (F)?\n")
+    # if request == "exit": 
+    #     pass
+    while True:
+        user_input = input("Would you like to know current weather (W) or forecast (F)?\n")
+        if user_input in ("exit", ""):
+            break
+        if user_input.lower() in ("current weather", "weather", "w", "forecast", "f"):
+            if user_input.lower() in ("current weather", "weather", "w"):
+                report_type = "weather"
+            elif user_input.lower() in  ("forecast", "f"):
+                report_type = "forecast"
+            user_input = input("What city?\n")
+            if user_input in ("exit", ""):
+                break
         add_user_message(
             messages,
-            f"What is the weather like in {city}",
-            # f"What is the latitude and longitude of {city}",
-            # city
+            f"What is the weather like in {user_input}" if report_type=="weather" else "What is the tomorrow's weather forecast in {user_input}"
         )
         run_conversation(messages)
-        city = input("\nPlease enter another city name if you would like to know its weather,\n"
-        " or type 'exit' if you would like to leave:")
     print(messages)
+        

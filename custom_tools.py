@@ -61,3 +61,6 @@ def get_weather(latitude, longitude):
 
     return data
 
+def get_forecast(latitude, longitude):
+    return
+

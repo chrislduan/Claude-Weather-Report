@@ -317,32 +317,5 @@ add_duration_to_datetime_schema = {
     },
 }
 
-# daily_forecast_schema = {
-#     "name": "get_daily_forecast",
-#     "description": "Get daily forecast for a geocode (latitude and longitude)",
-#     "input_schema": {
-#         "type": "object",
-#         "properties": {
-#             "lat": {
-#                 "type": "number",
-#                 "description": "The latitude"
-#             },
-#             "lon": {
-#                 "type": "number",
-#                 "description": "The longitude"
-#             }
-#         },
-#         "required": ["lat", "lon"]
-#     },
-# }
 
-# def get_daily_forecast(lat, lon):
-#     params = {
-#         "lat": lat,
-#         "lon": lon,
-#         "appid": os.environ["OPENWEATHER_KEY"],
-#     }
-#     response = requests.get(DAILY_FORECAST_API, params=params)
-#     response.raise_for_status()
-#     return response.json()
 
