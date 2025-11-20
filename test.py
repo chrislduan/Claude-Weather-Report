@@ -64,7 +64,8 @@ def run_conversation(messages):
                 # tools.city_geocode_tool_schema,
                 # tools.geocode_weather_tool_schema,
                 # tools.daily_forecast_schema
-                custom_tools.weather_tool_schema
+                custom_tools.weather_tool_schema,
+                custom_tools.weather_forecast_schema
             ],
         )
 
@@ -81,16 +82,8 @@ def run_conversation(messages):
 
 if __name__ == "__main__":
     print("I am an assistant that can give you the current weather or the forecast of any given city.")
-    # print("Please let me know if you would like the current or the forecast.")
     messages = []
     report_type = ""
-    # request = input("Would you like to know current weather (W) or forecast (F)?\n")
-    # if request == "exit": 
-    #     pass
-    # while request not in ["current weather", "weather", "W", "w", "forecast", "F", "f", "exit"]:
-    #     input("Would you like to know current weather (W) or forecast (F)?\n")
-    # if request == "exit": 
-    #     pass
     while True:
         user_input = input("Would you like to know current weather (W) or forecast (F)?\n")
         if user_input in ("exit", ""):
@@ -103,9 +96,13 @@ if __name__ == "__main__":
             user_input = input("What city?\n")
             if user_input in ("exit", ""):
                 break
+        if report_type == "weather":
+            input_string = f"Please give me a detailed report of the current weather in {user_input}"
+        elif report_type == "forecast":
+            input_string = f"Please give me a detailed 7 day weather forecast in {user_input}"
         add_user_message(
             messages,
-            f"What is the weather like in {user_input}" if report_type=="weather" else "What is the tomorrow's weather forecast in {user_input}"
+            input_string
         )
         run_conversation(messages)
     print(messages)

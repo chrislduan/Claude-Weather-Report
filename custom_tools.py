@@ -20,9 +20,28 @@ weather_tool_schema = {
     },
 }
 
+weather_forecast_schema = {
+    "name": "get_forecast",
+    "description": "Get 7 day weather forecast for a location",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "latitude": {
+                "type": "number",
+            },
+            "longitude": {
+                "type": "number",
+            }
+        },
+        "required": ["latitude", "longitude"]
+    },
+}
+
 def run_tool(tool_name, tool_input):
     if tool_name == "get_weather":
         return get_weather(**tool_input)
+    if tool_name == "get_forecast":
+        return get_forecast(**tool_input)
     
 
 # function to run multiple tools
@@ -62,5 +81,19 @@ def get_weather(latitude, longitude):
     return data
 
 def get_forecast(latitude, longitude):
-    return
+    url = (f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m&temperature_unit=fahrenheit")
+    response = requests.get(url)
+    data = response.json()
+
+    daily = data["daily"]
+
+    forecast = []
+    for day in range(len(daily["time"])):
+        forecast.append({
+            "date": daily["time"][day],
+            "temp_max": daily["temperature_2m_max"][day],
+            "temp_min": daily["temperature_2m_min"][day],
+            "precipitation_sum": daily["precipitation_sum"][day]
+        })
+    return forecast
 
