@@ -6,3 +6,6 @@ pydantic-core
 pandas
 requests-cache
 retry-requests
+aiohttp
+claude-agent-sdk
+asyncio

@@ -3,22 +3,22 @@ from datetime import datetime, timedelta
 from anthropic.types import ToolParam
 import os
 import requests
-import requests_cache
-from retry_requests import retry
-import openmeteo_requests
+# import requests_cache
+# from retry_requests import retry
+# import openmeteo_requests
 import json
 
 # Open Weather API
 WEATHER_API = "https://api.openweathermap.org/data/2.5/weather"
 GEO_API = "https://api.openweathermap.org/geo/1.0/direct"
-METEO_API = "https://api.open-meteo.com/v1/forecast"
-METEO_GEO_API = "https://geocoding-api.open-meteo.com/v1/search"
+# METEO_API = "https://api.open-meteo.com/v1/forecast"
+# METEO_GEO_API = "https://geocoding-api.open-meteo.com/v1/search"
 
 
 # Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-openmeteo = openmeteo_requests.Client(session = retry_session)
+# cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+# retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+# openmeteo = openmeteo_requests.Client(session = retry_session)
 
 
 
@@ -73,8 +73,8 @@ def run_tool(tool_name, tool_input):
         return get_current_datetime(**tool_input)
     elif tool_name == "add_duration_to_datetime":
         return add_duration_to_datetime(**tool_input)
-    elif tool_name == "meteo_get_city_geocode":
-        return meteo_get_city_geocode(**tool_input)
+    elif tool_name == "get_city_geocode":
+        return get_city_geocode(**tool_input)
     elif tool_name == "get_geocode_weather":
         return get_geocode_weather(**tool_input)
     elif tool_name == "get_daily_forecast":
@@ -127,7 +127,7 @@ city_geocode_tool_schema = {
             },
             "country": {
                 "type": "string",
-                "description": "The coutnry, e.g. Mexico"
+                "description": "The country, e.g. Mexico"
             }
         },
         "required": ["city"]
@@ -148,33 +148,33 @@ def get_city_geocode(city, country):
     return {"lat": data[0]["lat"], "lon": data[0]["lon"]}
 
 # Meteo Geocoding tool schema
-meteo_city_geocode_tool_schema = {
-    "name": "meteo_get_city_geocode",
-    "description": "Get geocode for a city",
-    "input_schema":{
-        "type": "object",
-        "properties": {
-            "name": {
-                "type": "string",
-                "description": "The name of the location, e.g. San Francisco, CA"
-            }
-        },
-        "required": ["name"]
-    }
-}
+# meteo_city_geocode_tool_schema = {
+#     "name": "meteo_get_city_geocode",
+#     "description": "Get geocode for a city",
+#     "input_schema":{
+#         "type": "object",
+#         "properties": {
+#             "name": {
+#                 "type": "string",
+#                 "description": "The name of the location, e.g. San Francisco, CA"
+#             }
+#         },
+#         "required": ["name"]
+#     }
+# }
 
 # code to receive city and convert to geo code on meteo API
-def meteo_get_city_geocode(city, country):
-    params = {
-        "q": f"{city},{country}",
-        "appid": os.environ["OPENWEATHER_KEY"],
-        "limit": 1,
-    }
-    response = requests.get(GEO_API, params)
-    response.raise_for_status()
+# def meteo_get_city_geocode(city, country):
+#     params = {
+#         "q": f"{city},{country}",
+#         "appid": os.environ["OPENWEATHER_KEY"],
+#         "limit": 1,
+#     }
+#     response = requests.get(GEO_API, params)
+#     response.raise_for_status()
 
-    data = response.json()
-    return {"lat": data[0]["lat"], "lon": data[0]["lon"]}
+#     data = response.json()
+#     return {"lat": data[0]["lat"], "lon": data[0]["lon"]}
 
 
 # Location Weather tool schema
@@ -317,32 +317,32 @@ add_duration_to_datetime_schema = {
     },
 }
 
-daily_forecast_schema = {
-    "name": "get_daily_forecast",
-    "description": "Get daily forecast for a geocode (latitude and longitude)",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "lat": {
-                "type": "number",
-                "description": "The latitude"
-            },
-            "lon": {
-                "type": "number",
-                "description": "The longitude"
-            }
-        },
-        "required": ["lat", "lon"]
-    },
-}
+# daily_forecast_schema = {
+#     "name": "get_daily_forecast",
+#     "description": "Get daily forecast for a geocode (latitude and longitude)",
+#     "input_schema": {
+#         "type": "object",
+#         "properties": {
+#             "lat": {
+#                 "type": "number",
+#                 "description": "The latitude"
+#             },
+#             "lon": {
+#                 "type": "number",
+#                 "description": "The longitude"
+#             }
+#         },
+#         "required": ["lat", "lon"]
+#     },
+# }
 
-def get_daily_forecast(lat, lon):
-    params = {
-        "lat": lat,
-        "lon": lon,
-        "appid": os.environ["OPENWEATHER_KEY"],
-    }
-    response = requests.get(DAILY_FORECAST_API, params=params)
-    response.raise_for_status()
-    return response.json()
+# def get_daily_forecast(lat, lon):
+#     params = {
+#         "lat": lat,
+#         "lon": lon,
+#         "appid": os.environ["OPENWEATHER_KEY"],
+#     }
+#     response = requests.get(DAILY_FORECAST_API, params=params)
+#     response.raise_for_status()
+#     return response.json()
 
