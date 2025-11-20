@@ -77,8 +77,8 @@ def run_tool(tool_name, tool_input):
         return get_city_geocode(**tool_input)
     elif tool_name == "get_geocode_weather":
         return get_geocode_weather(**tool_input)
-    elif tool_name == "get_daily_forecast":
-        return get_daily_forecast(**tool_input)
+    # elif tool_name == "get_daily_forecast":
+    #     return get_daily_forecast(**tool_input)
     elif tool_name == "batch_tool":
         return run_batch(**tool_input)
     
