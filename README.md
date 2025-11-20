@@ -29,18 +29,18 @@ In .env file add your Claude API Key
 ANTHROPIC_API_KEY="Your Claude Anthropic API Key here"
 ```
 
-Currently this code is very simple and only runs basic questions and in an early phase of simply answering weather questions in a terminal. Right now I have it so that it only takes a single question hard written in the code to ask current weather of a city.
 
-To run the basic testing code, in a terminal run this line:
+## Running the Code
+To run the basic code, in a terminal run this line:
 ```bash
 python test.py
 ```
+The code will prompt you and ask if you would like the current weather or the forecast.
+The code will then prompt you for a city name.
+After filling both prompts, the code will will display the information you requested.
 
-The code will prompt you for a city name. Type the name of the city for which you are seeking weather information.
-The code will tell you the current weather of the given city.
+You may exit the code by simply typing "exit"
 
 Plans to advance the code:
-* Directly have the users talk with the weather agent in the terminal and stream the API calls. Currently only takes one city and terminates itself.
-* Be able to retrieve weather data from the past.
-* Retrieve weather predictions in the near future.
+* Be able to retrieve historic weather data.
 
