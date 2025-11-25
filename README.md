@@ -33,7 +33,7 @@ ANTHROPIC_API_KEY="Your Claude Anthropic API Key here"
 ## Running the Code
 To run the basic code, in a terminal run this line:
 ```bash
-python test.py
+python main.py
 ```
 The code will prompt you and ask if you would like the current weather or the forecast.
 The code will then prompt you for a city name.
