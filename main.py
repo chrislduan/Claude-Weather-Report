@@ -91,13 +91,14 @@ if __name__ == "__main__":
             if user_input in ("exit", ""):
                 break
         if report_type == "weather":
-            input_string = f"Please give me a detailed report of the current weather in {user_input}"
+            input_string = f"Please give me a detailed report of the current weather in {user_input}. Do not ask further questions."
         elif report_type == "forecast":
-            input_string = f"Please give me a detailed 7 day weather forecast in {user_input}"
+            input_string = f"Please give me a detailed 7 day weather forecast in {user_input}. Do not ask further questions"
         add_user_message(
             messages,
             input_string
         )
         run_conversation(messages)
+        print()
     # print(messages)
         
